@@ -4,10 +4,12 @@ main:
 saveur_shop:
   token: saveurshop
   annual_fee: 200
+  pages:
+    index: /
+    login: /login
   dev:
+    name: SaveurShop (local)
+    host: saveurshop.dev.site
     url: http://saveurshop.dev.site:3000
     categories:
       approval
-    pages:
-      index: /
-      login: /login

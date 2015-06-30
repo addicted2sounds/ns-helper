@@ -33,7 +33,7 @@ class ShopHelper
       page.driver.browser.header('User-Agent', @settings[:user_agent])
       page.driver.allow_url('*')
     end
-    Capybara.app_host = @site_params[:url]
+    Capybara.app_host = @site_params[@env][:url]
   end
 
   def get_page(page)
@@ -47,12 +47,11 @@ class ShopHelper
     # screenshot_and_save_page "#{SCREEN_SHOTS_PATH}/#{@name}/#{page_name}.png"
   end
 
-  def login(role)
+  def login(credentials)
     visit @site_params[:pages][:login]
-    save_sources(:login)
-    # page.fill_in 'user_email', with: @credentials[role][:email]
-    # page.fill_in 'user_password', with: @credentials[role][:password]
-
+    fill_in 'user_email', with: credentials[:email]
+    fill_in 'user_password', with: credentials[:password]
+    click_button 'Sign in'
   end
 
   def login_main
@@ -62,8 +61,27 @@ class ShopHelper
     fill_in 'user_password', with: @credentials[:main][:admin][:password]
     click_button 'Sign in'
   end
+
   def setup
-    create_carrier
+    add_cms_site
+  end
+
+  def add_cms_site
+    login @credentials[:main][:admin]
+    click_link 'Sites'
+    click_link 'Create a new site'
+    fill_in 'site_host', with: @site_params[@env][:host]
+    fill_in 'site_name', with: @site_params[@env][:name]
+    click_button 'Save'
+    if page.has_content? 'has already been taken'
+      save_sources('cms_site')
+      @log.warn 'Site addition failed. Review "cms_site" screenshots'
+      false
+    else
+      @log.info 'Cms site added'
+      true
+    end
+
   end
 
   def create_carrier
