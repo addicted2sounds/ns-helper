@@ -20,6 +20,7 @@ class ShopHelper
     # @credentials = YAML::load_file(@settings[:credentials_file])[name.to_s].deep_symbolize_keys
     @site_params = @params[name]
     capybara_config
+    @log = Logger.new(STDOUT)
     #  # change url
   end
 
@@ -82,7 +83,14 @@ class ShopHelper
     fill_in 'token_for_nowshop_domain', with: @site_params[:token]
 
     click_button 'Save'
-    save_sources('carrier')
-    !page.has_content? 'New Carrier'
+
+    if page.has_content? 'New Carrier'
+      save_sources('carrier')
+      @log.warn 'Carrier creation failed. Review "carrier" screenshots'
+      false
+    else
+      @log.info 'Carrier created'
+      true
+    end
   end
 end
