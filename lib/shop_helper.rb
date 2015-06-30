@@ -4,19 +4,23 @@ require 'capybara-webkit'
 require 'capybara-screenshot'
 require 'active_support/all'
 require 'yaml'
+require 'faker'
 
 class ShopHelper
   SETTINGS = './settings.yml'
   SHOP_CONFIG = './config.yml'
   include Capybara::DSL
 
-  def initialize(name)
-    @name = name
+  def initialize(name, env)
+    @name, @env = name, env
     @settings = YAML::load_file(SETTINGS).deep_symbolize_keys
     @params = YAML::load_file(SHOP_CONFIG).deep_symbolize_keys
-    @credentials = YAML::load_file(@settings[:credentials_file])[name.to_s].deep_symbolize_keys
+    @credentials = YAML::load_file(@settings[:credentials_file]).deep_symbolize_keys
+    @site_credentials = @credentials[name][env]
+    # @credentials = YAML::load_file(@settings[:credentials_file])[name.to_s].deep_symbolize_keys
     @site_params = @params[name]
     capybara_config
+    @log = Logger.new(STDOUT)
     #  # change url
   end
 
@@ -29,7 +33,7 @@ class ShopHelper
       page.driver.browser.header('User-Agent', @settings[:user_agent])
       page.driver.allow_url('*')
     end
-    Capybara.app_host = @site_params[:url]
+    Capybara.app_host = @site_params[@env][:url]
   end
 
   def get_page(page)
@@ -43,11 +47,112 @@ class ShopHelper
     # screenshot_and_save_page "#{SCREEN_SHOTS_PATH}/#{@name}/#{page_name}.png"
   end
 
-  def login(role)
+  def login(credentials)
     visit @site_params[:pages][:login]
-    save_sources(:login)
-    # page.fill_in 'user_email', with: @credentials[role][:email]
-    # page.fill_in 'user_password', with: @credentials[role][:password]
+    fill_in 'user_email', with: credentials[:email]
+    fill_in 'user_password', with: credentials[:password]
+    click_button 'Sign in'
+  end
 
+  def login_main(credentials)
+    visit @params[:main][@env][:url]
+    click_link 'Sign in'
+    fill_in 'user_email', with: credentials[:email]
+    fill_in 'user_password', with: credentials[:password]
+    click_button 'Sign in'
+  end
+
+  def setup
+    retailer_about
+  end
+
+  def retailer_setup
+    login @credentials[@name][@env][:retailer]
+    fill_in 'First Name', with: Faker::Name.first_name
+    fill_in 'Last Name', with: Faker::Name.first_name
+    fill_in 'Address', with: Faker::Address.street_address
+    fill_in 'Postcode', with: Faker::Address.zip
+    fill_in 'Town', with: Faker::Address.city
+    fill_in 'Phone number', with: Faker::PhoneNumber.phone_number.gsub('.', '-')
+    check 'accept_docs'
+    click_button 'Setup'
+    if has_content? 'Setup your account'
+      save_sources('retailer-setup')
+      @log.warn 'Retails setup failed. Review "retailer-setup" screenshots'
+      false
+    else
+      @log.info 'Retails setup succeed'
+      true
+    end
+  end
+
+  def retailer_about
+    # fill_in 'About', with:
+  end
+
+  def create_retailer
+    login_main @credentials[@name][@env][:carrier]
+    if has_content? 'Registration'
+      fill_in 'First Name', with: Faker::Name.first_name
+      fill_in 'Last Name', with: Faker::Name.first_name
+      fill_in 'Address', with: Faker::Address.street_address
+      fill_in 'Zip code', with: Faker::Address.zip
+      fill_in 'Company', with: Faker::Company.name
+      fill_in 'Website URL', with: Faker::Internet.domain_name
+      fill_in 'City', with: Faker::Address.city
+      fill_in 'Telephone', with: Faker::PhoneNumber.phone_number
+      click_button 'Register'
+    end
+    login @credentials[@name][@env][:carrier]
+    click_link 'New retailer'
+    fill_in 'Email', with: @credentials[@name][@env][:retailer][:email]
+    fill_in 'Password', with: @credentials[@name][@env][:retailer][:password]
+    fill_in 'Company Name', with: Faker::Company.name
+    click_button 'Send'
+  end
+
+  def add_cms_site
+    login @credentials[:main][:admin]
+    click_link 'Sites'
+    click_link 'Create a new site'
+    fill_in 'site_host', with: @site_params[@env][:host]
+    fill_in 'site_name', with: @site_params[@env][:name]
+    click_button 'Save'
+    if page.has_content? 'has already been taken'
+      save_sources('cms_site')
+      @log.warn 'Site addition failed. Review "cms_site" screenshots'
+      false
+    else
+      @log.info 'Cms site added'
+      true
+    end
+  end
+
+  def create_carrier
+    login_main @credentials[:main][:admin]
+    click_link 'Carrier'
+    fill_in 'user_email', with: @site_credentials[:carrier][:email]
+    fill_in 'user_password', with: @site_credentials[:carrier][:password]
+    fill_in 'user_profile_name', with: Faker::Name.name
+    fill_in 'user_profile_bcc_email', with: @site_credentials[:carrier][:email]
+
+    fill_in 'user_profile_paypal_api_username', with: @credentials[:paypal_api][:username]
+    fill_in 'user_profile_paypal_api_password', with: @credentials[:paypal_api][:password]
+    fill_in 'user_profile_paypal_api_signature', with: @credentials[:paypal_api][:signature]
+    fill_in 'user_profile_paypal_api_app_id', with: @credentials[:paypal_api][:application_id]
+
+    fill_in 'user_profile_annual_fee_amount', with: @site_params[:annual_fee]
+    fill_in 'token_for_nowshop_domain', with: @site_params[:token]
+
+    click_button 'Save'
+
+    if page.has_content? 'New Carrier'
+      save_sources('carrier')
+      @log.warn 'Carrier creation failed. Review "carrier" screenshots'
+      false
+    else
+      @log.info 'Carrier created'
+      true
+    end
   end
 end
