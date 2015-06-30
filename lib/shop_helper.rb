@@ -54,16 +54,61 @@ class ShopHelper
     click_button 'Sign in'
   end
 
-  def login_main
+  def login_main(credentials)
     visit @params[:main][@env][:url]
     click_link 'Sign in'
-    fill_in 'user_email', with: @credentials[:main][:admin][:email]
-    fill_in 'user_password', with: @credentials[:main][:admin][:password]
+    fill_in 'user_email', with: credentials[:email]
+    fill_in 'user_password', with: credentials[:password]
     click_button 'Sign in'
   end
 
   def setup
-    add_cms_site
+    retailer_about
+  end
+
+  def retailer_setup
+    login @credentials[@name][@env][:retailer]
+    fill_in 'First Name', with: Faker::Name.first_name
+    fill_in 'Last Name', with: Faker::Name.first_name
+    fill_in 'Address', with: Faker::Address.street_address
+    fill_in 'Postcode', with: Faker::Address.zip
+    fill_in 'Town', with: Faker::Address.city
+    fill_in 'Phone number', with: Faker::PhoneNumber.phone_number.gsub('.', '-')
+    check 'accept_docs'
+    click_button 'Setup'
+    if has_content? 'Setup your account'
+      save_sources('retailer-setup')
+      @log.warn 'Retails setup failed. Review "retailer-setup" screenshots'
+      false
+    else
+      @log.info 'Retails setup succeed'
+      true
+    end
+  end
+
+  def retailer_about
+    # fill_in 'About', with:
+  end
+
+  def create_retailer
+    login_main @credentials[@name][@env][:carrier]
+    if has_content? 'Registration'
+      fill_in 'First Name', with: Faker::Name.first_name
+      fill_in 'Last Name', with: Faker::Name.first_name
+      fill_in 'Address', with: Faker::Address.street_address
+      fill_in 'Zip code', with: Faker::Address.zip
+      fill_in 'Company', with: Faker::Company.name
+      fill_in 'Website URL', with: Faker::Internet.domain_name
+      fill_in 'City', with: Faker::Address.city
+      fill_in 'Telephone', with: Faker::PhoneNumber.phone_number
+      click_button 'Register'
+    end
+    login @credentials[@name][@env][:carrier]
+    click_link 'New retailer'
+    fill_in 'Email', with: @credentials[@name][@env][:retailer][:email]
+    fill_in 'Password', with: @credentials[@name][@env][:retailer][:password]
+    fill_in 'Company Name', with: Faker::Company.name
+    click_button 'Send'
   end
 
   def add_cms_site
@@ -81,11 +126,10 @@ class ShopHelper
       @log.info 'Cms site added'
       true
     end
-
   end
 
   def create_carrier
-    login_main
+    login_main @credentials[:main][:admin]
     click_link 'Carrier'
     fill_in 'user_email', with: @site_credentials[:carrier][:email]
     fill_in 'user_password', with: @site_credentials[:carrier][:password]
