@@ -1,0 +1,7 @@
+saveur_shop:
+  url: http://saveurshop.dev.site:3000
+  categories:
+    approval
+  pages:
+    index: /
+    login: /login
