@@ -1,4 +1,5 @@
 .idea
 credentials.yml
+database.yml
 *.swp
 tmp/
