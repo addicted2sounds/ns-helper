@@ -6,6 +6,8 @@ require 'active_support/all'
 require 'yaml'
 require 'faker'
 
+require_relative 'retailer/manager'
+
 class ShopHelper
   SETTINGS = './settings.yml'
   SHOP_CONFIG = './config.yml'
@@ -63,7 +65,9 @@ class ShopHelper
   end
 
   def setup
-    retailer_about
+    @retailer_manager = Retailer::Manager.new
+    @retailer_manager.setup
+    # retailer_about
   end
 
   def retailer_setup
@@ -87,6 +91,7 @@ class ShopHelper
   end
 
   def retailer_about
+    login @credentials[@name][@env][:retailer]
     # fill_in 'About', with:
   end
 
