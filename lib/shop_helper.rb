@@ -13,6 +13,8 @@ class ShopHelper
   SHOP_CONFIG = './config.yml'
   include Capybara::DSL
 
+  attr_accessor :site_params
+
   def initialize(name, env)
     @name, @env = name, env
     @settings = YAML::load_file(SETTINGS).deep_symbolize_keys
@@ -49,12 +51,7 @@ class ShopHelper
     # screenshot_and_save_page "#{SCREEN_SHOTS_PATH}/#{@name}/#{page_name}.png"
   end
 
-  def login(credentials)
-    visit @site_params[:pages][:login]
-    fill_in 'user_email', with: credentials[:email]
-    fill_in 'user_password', with: credentials[:password]
-    click_button 'Sign in'
-  end
+
 
   def login_main(credentials)
     visit @params[:main][@env][:url]
@@ -65,8 +62,8 @@ class ShopHelper
   end
 
   def setup
-    @retailer_manager = Retailer::Manager.new
-    @retailer_manager.setup
+    @retailer_manager = Retailer::Manager.new(self)
+    @retailer_manager.setup @credentials[@name][@env][:retailer]
     # retailer_about
   end
 
