@@ -7,12 +7,13 @@ require 'yaml'
 require 'faker'
 
 require_relative 'retailer/manager'
+require_relative 'shared/login'
 
 class ShopHelper
   SETTINGS = './settings.yml'
   SHOP_CONFIG = './config.yml'
   include Capybara::DSL
-
+  include ShopOperations::Login
   attr_accessor :site_params
 
   def initialize(name, env)

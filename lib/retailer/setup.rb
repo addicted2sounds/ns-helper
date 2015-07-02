@@ -3,11 +3,19 @@ module Retailer
   module Setup
     def setup(credentials)
       login credentials
+      set_account
       # set_about
-      set_agreement
+      # set_agreement
     end
 
     private
+
+    def set_account
+      if has_css? '.edit_user'
+
+      end
+    end
+
     def set_about
       if has_content? 'About You form'
         fill_in 'shop_retailer_about', with: Faker::Lorem.sentence
