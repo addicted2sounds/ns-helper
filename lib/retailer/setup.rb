@@ -7,6 +7,7 @@ module Retailer
       set_about
       set_agreement
       set_payments
+      upload_products
     end
 
     private
@@ -65,6 +66,15 @@ module Retailer
         using_wait_time 20000 do #really long request
           visit "#{ @shop.settings[:paypal_callbacks][:permissions] }?#{ URI.parse(current_url).query }"
         end
+      end
+    end
+
+    def upload_products
+      if has_css? '.retailer-products'
+        click_link 'Upload CSV'
+        attach_file 'csv_file', File.absolute_path(@shop.settings[:sample_products])
+        click_button 'Upload'
+        click_button 'Upload'
       end
     end
   end
