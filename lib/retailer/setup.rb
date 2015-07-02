@@ -3,9 +3,9 @@ module Retailer
   module Setup
     def setup(credentials)
       login credentials
-      # set_account
-      # set_about
-      # set_agreement
+      set_account
+      set_about
+      set_agreement
       set_payments
     end
 
@@ -62,7 +62,7 @@ module Retailer
         sleep 1 # Monkey patch for js redirection
         find '[name="GetAccessTokenRequest[verifier]"]'
         p "#{ @shop.settings[:paypal_callbacks][:permissions] }?#{ URI.parse(current_url).query }"
-        using_wait_time 900 do #really long request
+        using_wait_time 20000 do #really long request
           visit "#{ @shop.settings[:paypal_callbacks][:permissions] }?#{ URI.parse(current_url).query }"
         end
       end

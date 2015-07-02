@@ -7,6 +7,7 @@ require 'yaml'
 require 'faker'
 
 require_relative 'retailer/manager'
+require_relative 'carrier/manager'
 require_relative 'shared/login'
 
 class ShopHelper
@@ -27,6 +28,10 @@ class ShopHelper
     capybara_config
     @log = Logger.new(STDOUT)
     #  # change url
+  end
+
+  def carrier
+    @carrier ||= Carrier::Manager.new self, @credentials[@name][@env][:carrier]
   end
 
   def capybara_config

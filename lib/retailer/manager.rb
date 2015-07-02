@@ -11,7 +11,6 @@ module Retailer
   class Manager
     include Setup
     include ShopOperations::Login
-    include ShopOperations::Login
 
     def initialize(shop)
       @shop  = shop
