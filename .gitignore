@@ -3,3 +3,4 @@ credentials.yml
 database.yml
 *.swp
 tmp/
+dumps/
