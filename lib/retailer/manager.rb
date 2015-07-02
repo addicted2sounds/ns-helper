@@ -11,10 +11,13 @@ module Retailer
   class Manager
     include Setup
     include ShopOperations::Login
+    include ShopOperations::Login
 
     def initialize(shop)
       @shop  = shop
       @site_params = @shop.site_params
+      @credentials = @shop.site_credentials[:retailer]
+      @log = @shop.log
     end
   end
 end

@@ -3,3 +3,6 @@ user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Geck
 screenshot_path: ./tmp/
 credentials_file: ./credentials.yml
 staging_host: stagingnowshop.com
+paypal_callbacks:
+  agreement: http://dev.site:3000/api/pay_pal/billing_agreement/success
+  permissions: http://dev.site:3000/api/pay_pal/permissions/callback

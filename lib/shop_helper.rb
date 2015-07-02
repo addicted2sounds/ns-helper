@@ -14,7 +14,7 @@ class ShopHelper
   SHOP_CONFIG = './config.yml'
   include Capybara::DSL
   include ShopOperations::Login
-  attr_accessor :site_params
+  attr_accessor :site_params, :log, :credentials, :site_credentials, :settings
 
   def initialize(name, env)
     @name, @env = name, env
@@ -39,6 +39,7 @@ class ShopHelper
       page.driver.allow_url('*')
     end
     Capybara.app_host = @site_params[@env][:url]
+    # Capybara.default_wait_time = 300
   end
 
   def get_page(page)
@@ -63,9 +64,10 @@ class ShopHelper
   end
 
   def setup
+    # visit 'https://paypal-sdk-samples.herokuapp.com/merchant/do_express_checkout_payment?carrier_token=saveurshop&token=EC-2X8192061P033920E'
+    # p URI.parse(current_url).query
     @retailer_manager = Retailer::Manager.new(self)
     @retailer_manager.setup @credentials[@name][@env][:retailer]
-    # retailer_about
   end
 
   def retailer_setup
@@ -106,12 +108,14 @@ class ShopHelper
       fill_in 'Telephone', with: Faker::PhoneNumber.phone_number
       click_button 'Register'
     end
+    # review this
     login @credentials[@name][@env][:carrier]
     click_link 'New retailer'
     fill_in 'Email', with: @credentials[@name][@env][:retailer][:email]
     fill_in 'Password', with: @credentials[@name][@env][:retailer][:password]
     fill_in 'Company Name', with: Faker::Company.name
     click_button 'Send'
+    click_link 'Logout'
   end
 
   def add_cms_site
