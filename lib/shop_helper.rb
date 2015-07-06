@@ -15,6 +15,14 @@ class ShopHelper
 
   attr_accessor :site_params
 
+
+  ROLES = [:carrier, :clerk, :retailer]
+  ROLES.each do |role|
+    define_method role do
+
+    end
+  end
+
   def initialize(name, env)
     @name, @env = name, env
     @settings = YAML::load_file(SETTINGS).deep_symbolize_keys
@@ -59,6 +67,10 @@ class ShopHelper
     fill_in 'user_email', with: credentials[:email]
     fill_in 'user_password', with: credentials[:password]
     click_button 'Sign in'
+  end
+
+  def clerk
+    @clerk ||= Clerk::Manager.new(self)
   end
 
   def setup

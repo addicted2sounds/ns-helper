@@ -1,6 +1,8 @@
 main:
   dev:
     url: http://dev.site:3000
+clerk:
+  url: https://my.clerk.io
 saveur_shop:
   token: saveurshop
   annual_fee: 200
