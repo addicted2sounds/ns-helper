@@ -1,4 +1,4 @@
 .idea
-credentials.yml
+config/credentials.yml
 *.swp
 tmp/
