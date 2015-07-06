@@ -1,8 +1,9 @@
 main:
   dev:
     url: http://dev.site:3000
-clerk:
-  url: https://my.clerk.io
+paypal_callbacks:
+  agreement: http://dev.site:3000/api/pay_pal/billing_agreement/success
+  permissions: http://dev.site:3000/api/pay_pal/permissions/callback
 saveur_shop:
   token: saveurshop
   annual_fee: 200

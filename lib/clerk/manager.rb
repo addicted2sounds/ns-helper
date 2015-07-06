@@ -1,11 +1,9 @@
-module Clerk
-  class Manager
-    def initialize(shop, **options)
-      @shop, @options  = shop, options
-      @site_params = @shop.site_params
-    end
+require_relative '../base_manager'
 
-    def login(credentials)
+module Clerk
+  class Manager < BaseManager
+    def login(credentials=nil)
+      credentials ||= @credentials
       visit @options[:url]
     end
   end
