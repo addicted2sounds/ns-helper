@@ -26,7 +26,7 @@ class ShopHelper
   end
 
   def clerk
-    @clerk ||= Clerk::Manager.new(self, @settings[:clerk])
+    @clerk ||= Clerk::Manager.new(self, @credentials[:clerk], @settings[:clerk])
   end
 
   def initialize(name, env)

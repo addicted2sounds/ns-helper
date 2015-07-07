@@ -10,6 +10,11 @@ saveur_shop:
   pages:
     index: /
     login: /login
+  clerk:
+    Test:
+      also-like-these:
+        type: Complementary Products
+        limit: 20
   dev:
     name: SaveurShop (local)
     host: saveurshop.dev.site

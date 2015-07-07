@@ -17,4 +17,11 @@ describe Clerk::Manager do
     expect(manager.login).to be_truthy
   end
 
+  it 'existing site should be selected' do
+    manager.set_site 'Test'
+  end
+
+  it 'should edit existing template' do
+
+  end
 end

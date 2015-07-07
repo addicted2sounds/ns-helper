@@ -7,9 +7,12 @@ require 'faker'
 class BaseManager
   include Capybara::DSL
 
-  def initialize(shop, **options)
+  def initialize(shop, credentials=nil, **options)
     @shop, @options, @credentials  = shop, options, credentials
     @site_params = @shop.site_params
   end
 
+  def login_required
+    self.send(:login) unless @logged_in
+  end
 end
