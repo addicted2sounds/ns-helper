@@ -1,6 +1,11 @@
 require_relative 'lib/shop_helper'
 task default: %w[]
 
-task :setup do |t, arg|
-  p t, arg
+namespace :buyer do
+  task :purchase do
+
+  end
+end
+task :setup do
+  p 'heeel'
 end
