@@ -1,12 +1,20 @@
 main:
   dev:
     url: http://dev.site:3000
+paypal_callbacks:
+  agreement: http://dev.site:3000/api/pay_pal/billing_agreement/success
+  permissions: http://dev.site:3000/api/pay_pal/permissions/callback
 saveur_shop:
   token: saveurshop
   annual_fee: 200
   pages:
     index: /
     login: /login
+  clerk:
+    Test:
+      also-like-these:
+        type: Complementary Products
+        limit: 20
   dev:
     name: SaveurShop (local)
     host: saveurshop.dev.site

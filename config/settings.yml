@@ -1,5 +1,8 @@
 capybara_driver: selenium
 user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/43.0.2357.81 Chrome/43.0.2357.81 Safari/537.36
 screenshot_path: ./tmp/
-credentials_file: ./credentials.yml
+credentials_file: config/credentials.yml
 staging_host: stagingnowshop.com
+sample_products: data/product-examples.csv
+clerk:
+  url: https://my.clerk.io

@@ -1,6 +1,5 @@
 .idea
-credentials.yml
-database.yml
+config/credentials.yml
+config/database.yml
 *.swp
 tmp/
-dumps/
