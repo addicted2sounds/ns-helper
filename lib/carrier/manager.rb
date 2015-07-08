@@ -1,3 +1,4 @@
+require_relative 'products'
 require_relative '../shared/login'
 
 require 'capybara'
@@ -8,7 +9,8 @@ require 'faker'
 
 module Carrier
   class Manager
-    include Setup
+    include Products
+    include ShopOperations::Login
 
     def initialize(shop, credentials)
       @shop  = shop
