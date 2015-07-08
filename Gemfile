@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rack'
 gem 'capybara'
 gem 'capybara-selenium'
 gem 'capybara-screenshot'

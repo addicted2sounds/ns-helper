@@ -80,4 +80,5 @@ DEPENDENCIES
   capybara-selenium
   capybara-webkit
   faker
+  rack
   rspec
