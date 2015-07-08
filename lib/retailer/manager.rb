@@ -15,6 +15,8 @@ module Retailer
     def initialize(shop)
       @shop  = shop
       @site_params = @shop.site_params
+      @credentials = @shop.site_credentials[:retailer]
+      @log = @shop.log
     end
   end
 end

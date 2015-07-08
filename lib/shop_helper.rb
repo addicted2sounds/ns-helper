@@ -7,22 +7,21 @@ require 'yaml'
 require 'faker'
 
 require_relative 'retailer/manager'
-require_relative 'clerk/manager'
-require_relative 'buyer/manager'
+require_relative 'shared/login'
 
 class ShopHelper
   SETTINGS = 'config/settings.yml'
   SHOP_CONFIG = 'config/config.yml'
   include Capybara::DSL
-
+  include ShopOperations::Login
   attr_accessor :site_params
 
 
-  ROLES = [:carrier, :retailer, :buyer]
+  ROLES = [:carrier, :retailer]
   ROLES.each do |role|
     define_method role do
       var = self.instance_variable_get "@#{role}"
-      Object.const_get(role.capitalize)::Manager.new(self, @credentials[@name][@env][role]) if var.nil?
+      Object.const_get(role.capitalize)::Manager.new(self) if var.nil?
     end
   end
 
