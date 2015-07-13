@@ -4,6 +4,25 @@ main:
 paypal_callbacks:
   agreement: http://dev.site:3000/api/pay_pal/billing_agreement/success
   permissions: http://dev.site:3000/api/pay_pal/permissions/callback
+
+decorjungle:
+  token: decorjungle
+  annual_fee: 200
+  pages:
+    index: /
+    login: /login
+  clerk:
+    Test:
+      also-like-these:
+        type: Complementary Products
+        limit: 20
+  dev:
+    name: DecorJungle (local)
+    host: decorjungle.dev.site
+    url: http://decorjungle.dev.site:3000
+    categories:
+      approval
+
 saveur_shop:
   token: saveurshop
   annual_fee: 200
