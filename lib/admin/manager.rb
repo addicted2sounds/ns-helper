@@ -14,6 +14,24 @@ module Admin
       click_button 'Sign in'
     end
 
+    def add_cms_site(credentials, options)
+      p Settings.credentials[:main][@env][:admin]
+      # login Settings.credentials[:main][@env][:admin]
+      # click_link 'Sites'
+      # click_link 'Create a new site'
+      # fill_in 'site_host', with: @site_params[@env][:host]
+      # fill_in 'site_name', with: @site_params[@env][:name]
+      # click_button 'Save'
+      # if page.has_content? 'has already been taken'
+      #   save_sources('cms_site')
+      #   @log.warn 'Site addition failed. Review "cms_site" screenshots'
+      #   false
+      # else
+      #   @log.info 'Cms site added'
+      #   true
+      # end
+    end
+
     def create_retailer(credentials, pp_api, **options)
       login @credentials
       click_link 'Carrier'

@@ -19,12 +19,16 @@ class ShopHelper
   attr_accessor :site_params
 
 
-  ROLES = [:carrier, :retailer]
-  ROLES.each do |role|
-    define_method role do
-      var = self.instance_variable_get "@#{role}"
-      Object.const_get(role.capitalize)::Manager.new(self) if var.nil?
-    end
+  # ROLES = [:carrier, :retailer]
+  # ROLES.each do |role|
+  #   define_method role do
+  #     var = self.instance_variable_get "@#{role}"
+  #     Object.const_get(role.capitalize)::Manager.new(self) if var.nil?
+  #   end
+  # end
+
+  def retailer
+    @retailer ||= Retailer::Manager.new self, @credentials[@name][@env][:retailer], @options[@name]
   end
 
   def clerk
@@ -135,20 +139,21 @@ class ShopHelper
   end
 
   def add_cms_site
-    login @credentials[:main][:admin]
-    click_link 'Sites'
-    click_link 'Create a new site'
-    fill_in 'site_host', with: @site_params[@env][:host]
-    fill_in 'site_name', with: @site_params[@env][:name]
-    click_button 'Save'
-    if page.has_content? 'has already been taken'
-      save_sources('cms_site')
-      @log.warn 'Site addition failed. Review "cms_site" screenshots'
-      false
-    else
-      @log.info 'Cms site added'
-      true
-    end
+    p Settings.credentials[:main][@env][:admin]
+    # login Settings.credentials[:main][@env][:admin]
+    # click_link 'Sites'
+    # click_link 'Create a new site'
+    # fill_in 'site_host', with: @site_params[@env][:host]
+    # fill_in 'site_name', with: @site_params[@env][:name]
+    # click_button 'Save'
+    # if page.has_content? 'has already been taken'
+    #   save_sources('cms_site')
+    #   @log.warn 'Site addition failed. Review "cms_site" screenshots'
+    #   false
+    # else
+    #   @log.info 'Cms site added'
+    #   true
+    # end
   end
 
   def create_carrier
