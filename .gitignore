@@ -3,4 +3,8 @@ config/credentials.yml
 config/database.yml
 *.swp
 tmp/
+<<<<<<< HEAD
 /data
+=======
+data/*.dump
+>>>>>>> main

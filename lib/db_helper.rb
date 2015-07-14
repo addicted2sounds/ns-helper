@@ -1,14 +1,16 @@
 require_relative 'settings'
 
 class DbHelper
+  CONFIG = 'config/database.yml'
+  SETTINGS = 'config/settings.yml'
   attr_accessor :command_line
   def initialize
-    @db = Settings.read('database.yml')
-    @settings = Settings.read 'settings.yml'
+    @db = Settings.load_config CONFIG
+    @settings = Settings.load_config SETTINGS
 
   end
   def dump_staging
-    filename = "dumps/nowshop-#{Time.now.strftime "%d-%m-%Y"}.dump"
+    filename = "data/nowshop-#{Time.now.strftime "%d-%m-%Y"}.dump"
     cmd = "ssh #{@settings[:staging_host]} -C 'pg_dump -Fc -h #{@db[:staging][:host]}"\
       " -U#{@db[:staging][:username]} -p5432 #{@db[:staging][:database]}' > #{filename}"
     system cmd
