@@ -1,6 +1,8 @@
 main:
   dev:
     url: http://dev.site:3000
+  staging:
+    url: http://dev.site:3000
 paypal_callbacks:
   agreement: http://dev.site:3000/api/pay_pal/billing_agreement/success
   permissions: http://dev.site:3000/api/pay_pal/permissions/callback
@@ -19,6 +21,12 @@ woofdeluxe:
     name: WoofDeluxe (local)
     host: woofdeluxe.dev.site
     url: http://woofdeluxe.dev.site:3000
+    categories:
+      approval
+  staging:
+    name: WoofDeluxe
+    host: woofdeluxe.stagingnowshop.com
+    url: http://woofdeluxe.stagingnowshop.com
     categories:
       approval
 

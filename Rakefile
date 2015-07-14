@@ -14,15 +14,18 @@ namespace :buyer do
 end
 
 namespace :admin do
-  task :add_retailer, :site do |t, args|
+  task :create_carrier, :site do |t, args|
     site = args[:site].to_sym if args[:site]
-    helper(args[:site]).admin.create_retailer Settings.credentials[site][env][:carrier],
+    helper(args[:site]).admin.create_carrier Settings.credentials[site][env][:carrier],
                                               Settings.credentials[:paypal_api],
                                               Settings.config[site]
-    Rake::Task['cms_site'].invoke site
+    Rake::Task['admin:cms_site'].invoke site
   end
+
   task :cms_site, :site do |t, args|
-    helper(args[:site]).add_cms_site
+    site = args[:site].to_sym if args[:site]
+    helper(args[:site]).admin.add_cms_site Settings.credentials[:main][env][:admin],
+                                           Settings.config[site]
   end
 end
 
@@ -30,8 +33,14 @@ namespace :retailer do
   task :create, :site do |t, args|
     site = args[:site].to_sym if args[:site]
     helper = helper(args[:site])
-    # helper.create_retailer
+    helper.create_retailer
     helper(args[:site]).retailer.setup Settings.credentials[site][env][:retailer]
+  end
+
+  task :setup, :site do |t, args|
+    site = args[:site].to_sym if args[:site]
+    helper = helper(args[:site])
+    helper.retailer.setup Settings.credentials[site][env][:retailer]
   end
 end
 
@@ -46,5 +55,6 @@ def helper(site=nil)
 end
 
 def env
-  ENV['NS_ENV'] || :dev
+  env = ENV['NS_ENV'] || :dev
+  env.to_sym
 end

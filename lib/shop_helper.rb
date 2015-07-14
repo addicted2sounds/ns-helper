@@ -36,6 +36,8 @@ class ShopHelper
   end
 
   def admin
+    p @credentials[:main][@env][:admin],
+      @options[:main][@env]
     @admin ||= Admin::Manager.new @credentials[:main][@env][:admin],
                                   @options[:main][@env]
   end
@@ -139,7 +141,7 @@ class ShopHelper
   end
 
   def add_cms_site
-    p Settings.credentials[:main][@env][:admin]
+    # p Settings.credentials[:main][@env][:admin]
     # login Settings.credentials[:main][@env][:admin]
     # click_link 'Sites'
     # click_link 'Create a new site'

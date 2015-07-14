@@ -6,7 +6,7 @@ module Admin
       @credentials, @options = credentials, options
     end
 
-    def login(credentials)
+    def login_main(credentials)
       visit @options[:url]
       click_link 'Sign in'
       fill_in 'user_email', with: credentials[:email]
@@ -15,8 +15,9 @@ module Admin
     end
 
     def add_cms_site(credentials, options)
-      p Settings.credentials[:main][@env][:admin]
-      # login Settings.credentials[:main][@env][:admin]
+      # p Settings.credentials[:main][@env][:admin], credentials
+      p credentials, options
+      login credentials
       # click_link 'Sites'
       # click_link 'Create a new site'
       # fill_in 'site_host', with: @site_params[@env][:host]
@@ -32,8 +33,8 @@ module Admin
       # end
     end
 
-    def create_retailer(credentials, pp_api, **options)
-      login @credentials
+    def create_carrier(credentials, pp_api, **options)
+      login_main @credentials
       click_link 'Carrier'
       within '#new_user' do
         fill_in 'user_email', with: credentials[:email]
