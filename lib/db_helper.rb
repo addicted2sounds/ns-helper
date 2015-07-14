@@ -5,10 +5,10 @@ class DbHelper
   SETTINGS = 'config/settings.yml'
   attr_accessor :command_line
   def initialize
-    @db = Settings.load_config CONFIG
-    @settings = Settings.load_config SETTINGS
-
+    @db = Settings.load_config CONFIG, :database
+    @settings = Settings.load_config SETTINGS, :settings
   end
+
   def dump_staging
     filename = "data/nowshop-#{Time.now.strftime "%d-%m-%Y"}.dump"
     cmd = "ssh #{@settings[:staging_host]} -C 'pg_dump -Fc -h #{@db[:staging][:host]}"\

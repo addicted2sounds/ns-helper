@@ -1,0 +1,4 @@
+!/usr/bin/env bash
+source /home/addicted/.rvm/environments/ruby-2.1.5@now_shop
+bundle install
+ruby ./shop.rb

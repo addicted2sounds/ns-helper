@@ -1,3 +1,4 @@
+require_relative 'lib/db_helper'
 require_relative 'lib/shop_helper'
 require_relative 'lib/settings'
 
@@ -34,6 +35,11 @@ namespace :retailer do
   end
 end
 
+namespace :db do
+  task :sync do
+    DbHelper.new.clone_staging
+  end
+end
 def helper(site=nil)
   @site = site || ENV['NS_SITE']
   ShopHelper.new site.to_sym, env.to_sym
