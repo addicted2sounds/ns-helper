@@ -4,6 +4,23 @@ main:
 paypal_callbacks:
   agreement: http://dev.site:3000/api/pay_pal/billing_agreement/success
   permissions: http://dev.site:3000/api/pay_pal/permissions/callback
+woofdeluxe:
+  token: woofdeluxe
+  annual_fee: 200
+  pages:
+    index: /
+    login: /login
+  clerk:
+    Test:
+      also-like-these:
+        type: Complementary Products
+        limit: 20
+  dev:
+    name: WoofDeluxe (local)
+    host: woofdeluxe.dev.site
+    url: http://woofdeluxe.dev.site:3000
+    categories:
+      approval
 
 decorjungle:
   token: decorjungle

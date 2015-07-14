@@ -6,7 +6,9 @@ require 'active_support/all'
 require 'yaml'
 require 'faker'
 
+require_relative 'settings'
 require_relative 'retailer/manager'
+require_relative 'admin/manager'
 require_relative 'shared/login'
 
 class ShopHelper
@@ -29,15 +31,21 @@ class ShopHelper
     @clerk ||= Clerk::Manager.new(self, @credentials[:clerk], @settings[:clerk])
   end
 
+  def admin
+    @admin ||= Admin::Manager.new @credentials[:main][@env][:admin],
+                                  @options[:main][@env]
+  end
+
   def initialize(name, env)
     @name, @env = name, env
     @settings = YAML::load_file(SETTINGS).deep_symbolize_keys
-    @params = YAML::load_file(SHOP_CONFIG).deep_symbolize_keys
+    @options = YAML::load_file(SHOP_CONFIG).deep_symbolize_keys
     @credentials = YAML::load_file(@settings[:credentials_file]).deep_symbolize_keys
     @site_credentials = @credentials[name][env]
     # @credentials = YAML::load_file(@settings[:credentials_file])[name.to_s].deep_symbolize_keys
-    @site_params = @params[name]
+    @site_params = @options[name]
     capybara_config
+
     @log = Logger.new(STDOUT)
   end
 
@@ -67,7 +75,7 @@ class ShopHelper
 
 
   def login_main(credentials)
-    visit @params[:main][@env][:url]
+    visit @options[:main][@env][:url]
     click_link 'Sign in'
     fill_in 'user_email', with: credentials[:email]
     fill_in 'user_password', with: credentials[:password]

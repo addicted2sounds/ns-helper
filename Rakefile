@@ -1,4 +1,6 @@
 require_relative 'lib/shop_helper'
+require_relative 'lib/settings'
+
 task default: %w[]
 
 namespace :buyer do
@@ -6,7 +8,12 @@ namespace :buyer do
 
   end
 end
-namespace :main do
+namespace :admin do
+  task :add_retailer, :site do |t, args|
+    Settings.read 'config/credentials.yml'
+    # p Settings.config
+    helper(args[:site]).admin.create_retailer
+  end
   task :cms_site, :site do |t, args|
     helper(args[:site]).add_cms_site
   end
