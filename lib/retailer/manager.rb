@@ -4,14 +4,8 @@ require_relative '../shared/login'
 
 module Retailer
   class Manager < BaseManager
+    attr_writer :paypal_callbacks
     include Setup
     include ShopOperations::Login
-
-    # def initialize(shop)
-    #   @shop  = shop
-    #   @site_params = @shop.site_params
-    #   @credentials = @shop.site_credentials[:retailer]
-    #   @log = @shop.log
-    # end
   end
 end

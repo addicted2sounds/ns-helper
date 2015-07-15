@@ -28,7 +28,13 @@ class ShopHelper
   # end
 
   def retailer
-    @retailer ||= Retailer::Manager.new self, @credentials[@name][@env][:retailer], @options[@name]
+    unless @retailer
+      @retailer = Retailer::Manager.new self,
+                                        @credentials[@name][@env][:retailer],
+                                        @options[@name]
+      @retailer.paypal_callbacks = Settings.common[:paypal_callbacks]
+    end
+    @retailer
   end
 
   def clerk
@@ -44,8 +50,10 @@ class ShopHelper
 
   def initialize(name, env)
     @name, @env = name, env
-    @settings = YAML::load_file(SETTINGS).deep_symbolize_keys
-    @options = YAML::load_file(SHOP_CONFIG).deep_symbolize_keys
+    # @settings = YAML::load_file(SETTINGS).deep_symbolize_keys
+    @settings = Settings.load_config SETTINGS, :config
+    @options = Settings.load_config SHOP_CONFIG, :common
+    # @options = YAML::load_file(SHOP_CONFIG).deep_symbolize_keys
     @credentials = YAML::load_file(@settings[:credentials_file]).deep_symbolize_keys
     @site_credentials = @credentials[name][env]
     # @credentials = YAML::load_file(@settings[:credentials_file])[name.to_s].deep_symbolize_keys
