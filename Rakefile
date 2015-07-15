@@ -29,6 +29,12 @@ namespace :admin do
   end
 end
 
+namespace :carrier do
+  task :accept_products, :site do |t, args|
+    helper(args[:site]).carrier.accept_products
+  end
+end
+
 namespace :retailer do
   task :create, :site do |t, args|
     site = args[:site].to_sym if args[:site]

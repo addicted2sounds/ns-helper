@@ -7,6 +7,7 @@ require 'yaml'
 require 'faker'
 
 require_relative 'settings'
+require_relative 'carrier/manager'
 require_relative 'retailer/manager'
 require_relative 'admin/manager'
 require_relative 'shared/login'
@@ -26,7 +27,14 @@ class ShopHelper
   #     Object.const_get(role.capitalize)::Manager.new(self) if var.nil?
   #   end
   # end
-
+  def carrier
+    unless @retailer
+      @carrier = Carrier::Manager.new self,
+                            @credentials[@name][@env][:carrier],
+                            @options[@name]
+    end
+    @carrier
+  end
   def retailer
     unless @retailer
       @retailer = Retailer::Manager.new self,
