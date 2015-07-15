@@ -48,6 +48,10 @@ namespace :db do
   task :sync do
     DbHelper.new.clone_staging
   end
+  task :load, :filename do |t, args|
+    filename = 'data/' + args[:filename]
+    DbHelper.new.restore_dump filename
+  end
 end
 def helper(site=nil)
   @site = site || ENV['NS_SITE']

@@ -3,7 +3,7 @@ require 'active_support/hash_with_indifferent_access'
 
 module Settings
   class << self
-    attr_accessor :_settings
+
     def load_config(filename, node)
       @_settings ||= Hash.new
       @_settings[node] = YAML::load_file(filename).deep_symbolize_keys
