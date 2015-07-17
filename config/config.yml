@@ -29,6 +29,25 @@ woofdeluxe:
     url: http://woofdeluxe.stagingnowshop.com
     categories:
       approval
+  clerk:
+    uk:
+      name: Woof Deluxe (UK)
+      categories:
+        also-like-these:
+          type: Complementary Products
+          limit: 20
+        more-items-from-this-seller:
+          type: Alternative Products
+          limit: 20
+        most-popular-right-now:
+          type: Trending Products
+          limit: 20
+        now-shop-search:
+          type: Search
+          limit: 100
+        trending-products:
+          type: Trending Products
+          limit: 20
 
 decorjungle:
   token: decorjungle

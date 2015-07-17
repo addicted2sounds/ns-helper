@@ -50,8 +50,6 @@ class ShopHelper
   end
 
   def admin
-    p @credentials[:main][@env][:admin],
-      @options[:main][@env]
     @admin ||= Admin::Manager.new @credentials[:main][@env][:admin],
                                   @options[:main][@env]
   end

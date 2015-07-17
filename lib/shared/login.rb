@@ -3,7 +3,6 @@ module ShopOperations
     include Capybara::DSL
 
     def login(credentials, **options)
-      p options
       visit @site_params[:pages][:login]
       fill_in 'user_email', with: credentials[:email]
       fill_in 'user_password', with: credentials[:password]

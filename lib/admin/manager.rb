@@ -2,6 +2,7 @@ require_relative '../base_manager'
 
 module Admin
   class Manager < BaseManager
+    include ShopOperations::Login
     def initialize(credentials, **options)
       @credentials, @options = credentials, options
     end
@@ -15,9 +16,9 @@ module Admin
     end
 
     def add_cms_site(credentials, options)
+      p @shop, @options
       # p Settings.credentials[:main][@env][:admin], credentials
-      p credentials, options
-      login credentials
+      # login credentials
       # click_link 'Sites'
       # click_link 'Create a new site'
       # fill_in 'site_host', with: @site_params[@env][:host]
