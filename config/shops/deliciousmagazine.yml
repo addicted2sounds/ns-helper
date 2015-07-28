@@ -1,0 +1,221 @@
+token: deliciousmagazine
+annual_fee: 200
+pages:
+  index: /
+  login: /login
+dev:
+  name: DeliciousMagazine (local)
+  host: deliciousmagazine.dev.site
+  url: http://deliciousmagazine.dev.site:3000
+  categories:
+    approval
+staging:
+  name: DeliciousMagazine
+  host: deliciousmagazine.stagingnowshop.com
+  url: http://deliciousmagazine.stagingnowshop.com
+  categories:
+    approval
+clerk:
+  uk:
+    name: DeliciousMagazine (GB) Staging
+    templates:
+      also-like-these:
+        type: recommendations/complementary
+        limit: 20
+        product_code: |
+          <li class="product-thumb">
+              <div class="product-thumb-inner">
+                <a href="{{url}}" title="{{{ name }}}">
+                  <div class="image">
+                      <div>
+                         <div class="table">
+                              <div class="table-cell">
+                                  <image src="{{image}}" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="title">
+                    <div>
+                      <p>{{{ name }}}</p>
+                    </div>
+                  </div>
+                  <p class="brand">{{{ brand }}}</p>
+                  <div class="price product-without-discount">
+                    {{currSign currency}} {{asPrice price}}
+                    <div class="product-list-discount">
+                      {{#if rebate}}
+                        <span>{{rebate}}</span>
+                        <span class="product-list-old-price">{{currSign currency}} {{original_price}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+                </a>
+              </div>
+          </li>
+        container_code: |
+          <p>You may also like these:</p>
+          <ul id="ck-also-like-these" class=":target"></ul>
+
+          <script type="text/javascript">
+            Clerk.ui.slider("#ck-also-like-these").init();
+          </script>
+      more-items-from-this-seller:
+        type: Alternative Products
+        limit: 20
+        product_code: |
+          <li class="product-thumb">
+              <div class="product-thumb-inner">
+                <a href="{{url}}" title="{{{ name }}}">
+                  <div class="image">
+                      <div>
+                         <div class="table">
+                              <div class="table-cell">
+                                  <image src="{{image}}" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="title">
+                    <div>
+                      <p>{{{ name }}}</p>
+                    </div>
+                  </div>
+                  <p class="brand">{{{ brand }}}</p>
+                  <div class="price product-without-discount">
+                    {{currSign currency}} {{asPrice price}}
+                    <div class="product-list-discount">
+                      {{#if rebate}}
+                        <span>{{rebate}}</span>
+                        <span class="product-list-old-price">{{currSign currency}} {{original_price}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+                </a>
+              </div>
+          </li>
+        container_code: |
+          <p>More items from this seller:</p>
+          <ul id="ck-more-items-from-this-seller" class=":target"></ul>
+
+          <script type="text/javascript">
+            Clerk.ui.slider("#ck-more-items-from-this-seller").init();
+          </script>
+      most-popular-right-now:
+        type: Trending Products
+        limit: 20
+        product_code: |
+          <li class="product-thumb">
+              <div class="product-thumb-inner">
+                <a href="{{url}}" title="{{{ name }}}">
+                  <div class="image">
+                      <div>
+                         <div class="table">
+                              <div class="table-cell">
+                                  <image src="{{image}}" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="title">
+                    <div>
+                      <p>{{{ name }}}</p>
+                    </div>
+                  </div>
+                  <p class="brand">{{{ brand }}}</p>
+                  <div class="price product-without-discount">
+                    {{currSign currency}} {{asPrice price}}
+                    <div class="product-list-discount">
+                      {{#if rebate}}
+                        <span>{{rebate}}%</span>
+                        <span class="product-list-old-price">{{currSign currency}} {{original_price}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+                </a>
+              </div>
+          </li>
+        container_code: |
+          <p>Most popular right now:</p>
+          <ul id="ck-most-popular-right-now" class=":target"></ul>
+
+          <script type="text/javascript">
+            Clerk.ui.slider("#ck-most-popular-right-now").init();
+          </script>
+      now-shop-search:
+        type: Search
+        limit: 100
+        product_code: |
+          <li class="product-thumb">
+              <div class="product-thumb-inner">
+                <a href="{{url}}" title="{{{ name }}}">
+                  <div class="image">
+                      <div>
+                         <div class="table">
+                              <div class="table-cell">
+                                  <image src="{{image}}" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="title">
+                    <div>
+                      <p>{{{ name }}}</p>
+                    </div>
+                  </div>
+                  <p class="brand">{{{ brand }}}</p>
+                  <div class="price product-without-discount">
+                    {{currSign currency}} {{asPrice price}}
+                    <div class="product-list-discount">
+                      {{#if rebate}}
+                        <span>{{rebate}}</span>
+                        <span class="product-list-old-price">{{currSign currency}} {{original_price}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+                </a>
+              </div>
+          </li>
+        container_code: |
+          <ul id="ck-search-result" class=":target"></ul>
+      trending-products:
+        type: Trending Products
+        limit: 20
+        product_code: |
+          <li class="product-thumb">
+              <div class="product-thumb-inner">
+                <a href="{{url}}" title="{{{ name }}}">
+                  <div class="image">
+                      <div>
+                         <div class="table">
+                              <div class="table-cell">
+                                  <image src="{{image}}" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="title">
+                    <div>
+                      <p>{{{ name }}}</p>
+                    </div>
+                  </div>
+                  <p class="brand">{{{ brand }}}</p>
+                  <div class="price product-without-discount">
+                    {{currSign currency}} {{asPrice price}}
+                    <div class="product-list-discount">
+                      {{#if rebate}}
+                        <span>{{rebate}}</span>
+                        <span class="product-list-old-price">{{currSign currency}} {{original_price}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+                </a>
+              </div>
+          </li>
+        container_code: |
+          <p>Trending products:</p>
+          <ul id="ck-most-popular-right-now" class=":target"></ul>
+
+          <script type="text/javascript">
+            Clerk.ui.slider("#ck-most-popular-right-now").init();
+          </script>

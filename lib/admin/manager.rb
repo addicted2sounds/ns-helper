@@ -3,9 +3,9 @@ require_relative '../base_manager'
 module Admin
   class Manager < BaseManager
     include ShopOperations::Login
-    def initialize(credentials, **options)
-      @credentials, @options = credentials, options
-    end
+    # def initialize(credentials, **options)
+    #   @credentials, @options = credentials, options
+    # end
 
     def login_main(credentials)
       visit @options[:url]
@@ -16,22 +16,22 @@ module Admin
     end
 
     def add_cms_site(credentials, options)
-      p @shop, @options
-      # p Settings.credentials[:main][@env][:admin], credentials
-      # login credentials
-      # click_link 'Sites'
-      # click_link 'Create a new site'
-      # fill_in 'site_host', with: @site_params[@env][:host]
-      # fill_in 'site_name', with: @site_params[@env][:name]
-      # click_button 'Save'
-      # if page.has_content? 'has already been taken'
-      #   save_sources('cms_site')
-      #   @log.warn 'Site addition failed. Review "cms_site" screenshots'
-      #   false
-      # else
-      #   @log.info 'Cms site added'
-      #   true
-      # end
+      # p @shop, @options
+      login @credentials
+      click_link 'Sites'
+      click_link 'Create a new site'
+      p @options[@env]
+      fill_in 'site_host', with: @options[@env][:host]
+      fill_in 'site_name', with: @options[@env][:name]
+      click_button 'Save'
+      if page.has_content? 'has already been taken'
+        save_sources('cms_site')
+        warn 'Site addition failed. Review "cms_site" screenshots'
+        false
+      else
+        info 'Cms site added'
+        true
+      end
     end
 
     def create_carrier(credentials, pp_api, **options)

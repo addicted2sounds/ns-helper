@@ -6,7 +6,7 @@ require 'faker'
 
 class BaseManager
   include Capybara::DSL
-
+  attr_accessor :env
   def initialize(shop, credentials=nil, **options)
     @shop, @options, @credentials  = shop, options, credentials
     @site_params = @shop.site_params

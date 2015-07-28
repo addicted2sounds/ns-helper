@@ -8,3 +8,4 @@ gem 'capybara-webkit'
 gem 'activesupport'
 gem 'faker'
 gem 'rspec'
+gem "chromedriver-helper"

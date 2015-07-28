@@ -13,6 +13,11 @@ namespace :buyer do
   end
 end
 
+namespace :clerk do
+  task :setup, :site do |*, args|
+    helper(args[:site]).clerk.setup
+  end
+end
 namespace :admin do
   task :create_carrier, :site do |t, args|
     site = args[:site].to_sym if args[:site]

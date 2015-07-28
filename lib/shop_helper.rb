@@ -7,10 +7,15 @@ require 'yaml'
 require 'faker'
 
 require_relative 'settings'
+require_relative 'clerk/manager'
 require_relative 'carrier/manager'
 require_relative 'retailer/manager'
 require_relative 'admin/manager'
 require_relative 'shared/login'
+
+# Capybara.register_driver :chrome do |app|
+#   Capybara::Selenium::Driver.new(app, :browser => :chrome)
+# end
 
 class ShopHelper
   SETTINGS = 'config/settings.yml'
@@ -46,12 +51,20 @@ class ShopHelper
   end
 
   def clerk
-    @clerk ||= Clerk::Manager.new(self, @credentials[:clerk], @settings[:clerk])
+    unless @clerk
+      @clerk = Clerk::Manager.new(self, @credentials[:clerk], @settings[:clerk])
+      @clerk.sites = @site_params[:clerk]
+    end
+    @clerk
   end
 
   def admin
-    @admin ||= Admin::Manager.new @credentials[:main][@env][:admin],
-                                  @options[:main][@env]
+    unless @admin
+      @admin = Admin::Manager.new self, @credentials[:main][@env][:admin],
+                                    @options[@name]
+      @admin.env = @env
+    end
+    @admin
   end
 
   def initialize(name, env)
@@ -63,7 +76,9 @@ class ShopHelper
     @credentials = YAML::load_file(@settings[:credentials_file]).deep_symbolize_keys
     @site_credentials = @credentials[name][env]
     # @credentials = YAML::load_file(@settings[:credentials_file])[name.to_s].deep_symbolize_keys
-    @site_params = @options[name]
+    #@site_params = YAML::load_file File.read("config/shops/#{name}.yml")
+    @site_params = YAML::load_file("config/shops/#{name}.yml").deep_symbolize_keys
+    # @site_params ||= @options[name]
     capybara_config
 
     @log = Logger.new(STDOUT)

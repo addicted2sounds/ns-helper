@@ -48,6 +48,48 @@ woofdeluxe:
         trending-products:
           type: Trending Products
           limit: 20
+deliciousmagazine:
+  token: deliciousmagazine
+  annual_fee: 200
+  pages:
+    index: /
+    login: /login
+  clerk:
+    Test:
+      also-like-these:
+        type: Complementary Products
+        limit: 20
+  dev:
+    name: DeliciousMagazine (local)
+    host: deliciousmagazine.dev.site
+    url: http://deliciousmagazine.dev.site:3000
+    categories:
+      approval
+  staging:
+    name: DeliciousMagazine
+    host: deliciousmagazine.stagingnowshop.com
+    url: http://deliciousmagazine.stagingnowshop.com
+    categories:
+      approval
+  clerk:
+    uk:
+      name: DeliciousMagazine (GB) Staging
+      templates:
+        also-like-these:
+          type: Complementary Products
+          limit: 20
+        more-items-from-this-seller:
+          type: Alternative Products
+          limit: 20
+        most-popular-right-now:
+          type: Trending Products
+          limit: 20
+        now-shop-search:
+          type: Search
+          limit: 100
+        trending-products:
+          type: Trending Products
+          limit: 20
 
 decorjungle:
   token: decorjungle
